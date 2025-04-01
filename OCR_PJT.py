@@ -50,26 +50,29 @@ for image_file in image_files:
     for i, word in enumerate(data['text']):
         for label, pattern in patterns.items():
             if re.search(pattern, word):  # 정규식 패턴에 해당하면 저장
-                x, y, w, h = data['left'][i], data['top'][i], data['width'][i], data['height'][i]
+                x1, y1 = data['left'][i], data['top'][i]  # 텍스트 영역의 좌측 상단 좌표
+                width, height = data['width'][i], data['height'][i]  # 너비, 높이
+                x2, y2 = x1 + width, y1 + height  # 텍스트 영역의 우측 하단 좌표
+                
                 found_results.append({
                     "label": label,
                     "text": word,
-                    "x": x,
-                    "y": y,
-                    "width": w,
-                    "height": h
+                    "x1": x1, "y1": y1,  # 왼쪽 상단 좌표
+                    "x2": x2, "y2": y2,  # 오른쪽 하단 좌표
+                    "width": width, "height": height
                 })
-# x: 텍스트 영역의 왼쪽 상단 모서리의 X 좌표
-# y: 텍스트 영역의 왼쪽 상단 모서리의 Y 좌표
-# w (width): 텍스트 영역의 너비
-# h (height): 텍스트 영역의 높이 ((x, y)는 글자가 시작하는 위치이며 w와 h는 해당 글자의 크기를 나타냄)
 
+# x1	 텍스트 영역의 왼쪽 상단 X 좌표
+# y1	 텍스트 영역의 왼쪽 상단 Y 좌표
+# x2	 텍스트 영역의 오른쪽 하단 X 좌표 (x1 + width)
+# y2	 텍스트 영역의 오른쪽 하단 Y 좌표 (y1 + height)
+# width	 텍스트 영역의 너비
+# height 텍스트 영역의 높이
 
-# 결과 출력
-print(f"\n [파일] {image_file}")
-if found_results:
-    for result in found_results:
-        print(f"[{result['label']}] {result['text']} → 좌표: (x={result['x']}, y={result['y']}, w={result['width']}, h={result['height']})")
-else:
-    print("일치하는 정보가 없습니다.")
-
+    # 결과 출력
+    print(f"\n📂 [파일] {image_file}")
+    if found_results:
+        for result in found_results:
+            print(f"[{result['label']}] {result['text']} → 좌표: (x1={result['x1']}, y1={result['y1']}, x2={result['x2']}, y2={result['y2']}, w={result['width']}, h={result['height']})")
+    else:
+        print("⚠️ 일치하는 정보가 없습니다.")
