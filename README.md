@@ -1,7 +1,7 @@
 # FastAPI OCR 시스템
 
 ## 📖 소개
-FastAPI 기반으로 만든 OCR(Optical Character Recognition) 시스템입니다.  
+OCR(Optical Character Recognition)  
 Tesseract OCR을 활용하여 이미지에서 텍스트를 추출하고, AWS Lambda에 배포할 수 있도록 설계되었습니다.
 
 ## 🚀 기능
